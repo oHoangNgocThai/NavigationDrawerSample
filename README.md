@@ -108,3 +108,12 @@ override fun onSupportNavigateUp(): Boolean {
 
 * Vẫn có một chú ý là các id của fragment trong navigation graph phải trùng với id của menu của NavigationView.
 
+
+
+# Custom Navigation Drawer
+
+> Có thể sử dụng custom navigation drawer khi muốn giao diện hiển thị khác với mặc định, chẳng hạn như là một list các item với nhiều thông tin hơn chứ không đơn giản chỉ là icon và text, cập nhật nếu có thông báo trong từng mục lên giao diện, ...
+
+## Custom List Item
+
+* Chúng ta hãy thử tạo một list các item thay thế cho menu của Navigation Drawer.

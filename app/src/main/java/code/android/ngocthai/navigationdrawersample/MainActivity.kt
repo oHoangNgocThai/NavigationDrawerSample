@@ -7,6 +7,7 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import code.android.ngocthai.navigationdrawersample.custom.CustomActivity
 import code.android.ngocthai.navigationdrawersample.navcomponent.NavComponentActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -29,6 +30,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         buttonWithNavigation.setOnClickListener {
             startActivity(Intent(this, NavComponentActivity::class.java))
+        }
+
+        buttonCustom.setOnClickListener {
+            startActivity(Intent(this, CustomActivity::class.java))
         }
     }
 
