@@ -8,12 +8,18 @@ import code.android.ngocthai.navigationdrawersample.R
 import code.android.ngocthai.navigationdrawersample.entity.ItemCustom
 import kotlinx.android.synthetic.main.item_custom.view.*
 
-class CustomItemAdapter : RecyclerView.Adapter<CustomItemAdapter.ViewHolder>() {
+class CustomItemAdapter(
+        private val listener: ItemCustomListener
+) : RecyclerView.Adapter<CustomItemAdapter.ViewHolder>() {
+
+    interface ItemCustomListener {
+        fun onItemClicked(item: ItemCustom)
+    }
 
     protected val items = mutableListOf<ItemCustom>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_custom, parent, false))
+        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_custom, parent, false), listener)
     }
 
     override fun getItemCount(): Int {
@@ -24,7 +30,7 @@ class CustomItemAdapter : RecyclerView.Adapter<CustomItemAdapter.ViewHolder>() {
         holder.bind(items[position])
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, val listener: ItemCustomListener) : RecyclerView.ViewHolder(view) {
 
         fun bind(item: ItemCustom) {
 
@@ -37,10 +43,14 @@ class CustomItemAdapter : RecyclerView.Adapter<CustomItemAdapter.ViewHolder>() {
             } else {
                 itemView.textNotification.visibility = View.GONE
             }
+
+            itemView.setOnClickListener {
+                listener.onItemClicked(item)
+            }
         }
     }
 
-    private fun updateAllData(newList: List<ItemCustom>) {
+    fun updateAllData(newList: List<ItemCustom>) {
         items.clear()
         items.addAll(newList)
         notifyDataSetChanged()
