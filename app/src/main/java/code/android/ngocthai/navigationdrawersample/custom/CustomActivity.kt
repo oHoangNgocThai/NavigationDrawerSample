@@ -1,6 +1,7 @@
 package code.android.ngocthai.navigationdrawersample.custom
 
 import android.os.Bundle
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
@@ -37,6 +38,7 @@ class CustomActivity : AppCompatActivity(), CustomItemAdapter.ItemCustomListener
 
     override fun onItemClicked(item: ItemCustom) {
         Toast.makeText(applicationContext, "Click item: ${item.title}", Toast.LENGTH_SHORT).show()
+        drawer_layout.closeDrawer(GravityCompat.START)
     }
 
     private fun createData(): List<ItemCustom> {

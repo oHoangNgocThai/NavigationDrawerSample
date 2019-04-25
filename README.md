@@ -116,4 +116,38 @@ override fun onSupportNavigateUp(): Boolean {
 
 ## Custom List Item
 
-* Chúng ta hãy thử tạo một list các item thay thế cho menu của Navigation Drawer.
+* Để thay thế cho menu của NavigationView, chúng ta hãy tạo một list các item như mong muốn sau đó đặt RecyclerView vào bên trong thẻ NavigationView.
+
+```
+<android.support.design.widget.NavigationView
+    android:id="@+id/nav_view"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="start"
+    android:fitsSystemWindows="true">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/layoutHeader"
+            layout="@layout/nav_header_main"
+            android:layout_width="match_parent"
+            android:layout_height="176dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerCustom"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/layoutHeader" />
+    </android.support.constraint.ConstraintLayout>
+</android.support.design.widget.NavigationView>
+```
+
+* Ở đây chúng ta sẽ bỏ thuộc tính **menu** và **headerLayout** và thay vào đó là xử lý layout của NavigationView như một rootView bình thường, có thể thêm các thành phần khác.
+
+* Việc còn lại là tạo item, adapter và set dữ liệu vào như bình thường sử dụng RecyclerView.
