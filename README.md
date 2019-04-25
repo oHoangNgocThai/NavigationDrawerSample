@@ -151,3 +151,89 @@ override fun onSupportNavigateUp(): Boolean {
 * Ở đây chúng ta sẽ bỏ thuộc tính **menu** và **headerLayout** và thay vào đó là xử lý layout của NavigationView như một rootView bình thường, có thể thêm các thành phần khác.
 
 * Việc còn lại là tạo item, adapter và set dữ liệu vào như bình thường sử dụng RecyclerView.
+
+## Move content to side in Drawer Layout
+
+* Thực hiện slide nội dung của fragment khi sử dụng NavigationView, như ví dụ dưới đây: 
+
+![](http://thetechnocafe.com/wp-content/uploads/2018/01/move_content_main.gif)
+
+* Đầu tiên, bạn cần phân rõ thẻ layout chứa NavigationView và layout chứa các nội dung còn lại như content hoặc toolbar nằm bên trong **DrawerLayout**.
+
+```
+<android.support.v4.widget.DrawerLayout
+    ...
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    tools:openDrawer="start">
+
+    <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.design.widget.NavigationView
+        android:id="@+id/nav_view"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:fitsSystemWindows="true">
+
+    </android.support.design.widget.NavigationView>
+</android.support.v4.widget.DrawerLayout>
+```
+
+* Sau đó thực hiện làm cho scrim trở nên trong suốt, đây chính là thành phần mà khi bạn mở DrawerLayout ra thì màn hình bên phải sẽ tối đi.
+
+```
+drawer_layout.setScrimColor(Color.TRANSPARENT)
+```
+
+* Dựa vào sự kiện của **ActionBarDrawerToggle** để bắt được sự kiện khi slide là phương thức **onDrawerSlide()**, ngoài ra còn có các sự kiện khác như **onDrawerClosed()**, **onDrawerOpened()**, **onDrawerStateChanged**.
+
+```
+val toggle = object : ActionBarDrawerToggle(
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+) {
+    private val scaleFactor = 6f
+    
+    override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+        super.onDrawerSlide(drawerView, slideOffset)
+    }
+}
+```
+
+* Thực hiện moving content về bên phải bằng các tính toán và sử dụng translationX của View chứa content.
+
+```
+val slideX = drawerView.width * slideOffset
+containerContent.translationX = slideX
+```
+
+* Đây sẽ move content sang bên phải bằng đúng với width của NavigationView. Nếu muốn scale xuống dưới 1 chút như hình ví dụ, chúng ta sử dụng thuộc tính **scaleX**, **scaleY**.
+
+```
+containerContent.scaleX = 1 - slideOffset / scaleFactor
+containerContent.scaleY = 1 - slideOffset / scaleFactor
+```
+
+* Cũng có thể ẩn luôn content đi bằng cách custom lại tỉ lệ scale.
+
+```
+// hide content
+containerContent.scaleX = 1 - slideOffset
+containerContent.scaleY = 1 - slideOffset
+```
+
+* Cuối cùng là thêm toggle sự kiện vào DrawerLayout.
+
+```
+drawer_layout.addDrawerListener(toggle)
+toggle.syncState()
+```
+
+* Đôi khi drawer đi kèm với 1 cái bóng mờ, có thể được loại bỏ bằng thuộc tính `drawer_layout.drawerElevation = 0f`.
+

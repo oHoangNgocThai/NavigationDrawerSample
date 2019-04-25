@@ -9,7 +9,9 @@
     tools:openDrawer="start">
 
     <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/containerContent"
         android:layout_width="match_parent"
+        android:background="#E66767"
         android:layout_height="match_parent">
 
         <android.support.design.widget.AppBarLayout
@@ -45,6 +47,7 @@
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="#03A9F4"
             android:layout_height="match_parent">
 
             <include
